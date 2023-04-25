@@ -5,7 +5,7 @@ import Cards from './components/Cards/Cards';
 import characters, { Rick } from './data.js';
 
 function App () {
-  //aqui va mi cerebroooooo
+  //aqui va mi cerebro
 
   const [ characters, setCharacters ] = useState([]); //memoria 1
 
