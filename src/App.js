@@ -8,11 +8,17 @@ import About from './components/About/About.jsx';
 import Detail from './components/Detail/Detail.jsx';
 import Form from './components/Form/Form.jsx';
 import Favorites from './components/Favorites/Favorites.jsx';
+import { useDispatch, useSelector } from 'react-redux';
+import { addChar, removedChar } from './redux/accions/accions.js';
 
 function App() {
 
-   const [ characters, setCharacters] = useState([]);
-   const [ access, setAccess ] = useState(false);
+   // const [ characters, setCharacters] = useState([]);
+   const allCharacters =  useSelector((state)=>state.filteredCharacters);
+
+   const dispatch = useDispatch();
+
+   const [ access, setAccess ] = useState(true);
 
    const location = useLocation();
    const navigate = useNavigate();
@@ -34,21 +40,28 @@ function App() {
 
    const onClose = (id) => {
       //crea un nuevo arreglo sin el personaje
-      const filteredSate = characters.filter((char)=> char.id !== id);
-      setCharacters(filteredSate);
+      dispatch(removedChar(id));
+      // const filteredSate = characters.filter((char)=> char.id !== id);
+      // setCharacters(filteredSate);
    };
 
    const onSearch = (id) => {
       axios(`https://rickandmortyapi.com/api/character/${id}`).then(
          (reponse) => {
             if (reponse.data.name) {
-               setCharacters((oldChars) => [...oldChars, reponse.data]);
+               // setCharacters((oldChars) => [...oldChars, reponse.data]);
+               dispatch(addChar(reponse.data));
             } else {
                window.alert(`¡No hay personajes con ID: ${id}!`);
             }
          }
       );
    };
+
+   const logout = ()=>{
+         setAccess(false);
+         // navigate('/home');
+   }
 
    //character = [characterSearched ] //memoria2
    
@@ -57,7 +70,7 @@ function App() {
       <div className='App'>
          { 
             location.pathname !== '/' ?
-            <Nav onSearch={onSearch} /> :
+            <Nav onSearch={onSearch} logout={logout} /> :
             undefined
          }
          <Routes>
@@ -69,7 +82,7 @@ function App() {
 
             {/* HOME */}
             <Route path='/home' element={
-               <Cards characters={characters} onClose={onClose} />
+               <Cards characters={allCharacters} onClose={onClose} />
             } />
 
             {/* ABOUT */}
