@@ -1,0 +1,14 @@
+{
+  "name": "rm-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "start": "nodemon ./src/index.js"
+  },
+  "author": "",
+  "license": "ISC"
+}

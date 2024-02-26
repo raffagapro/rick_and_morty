@@ -13,7 +13,8 @@ export default function Detail() {
 
     //toma la informacion apartir del ID del API
     useEffect(() => {
-        axios(`https://rickandmortyapi.com/api/character/${id}`).then(
+      // axios(`https://rickandmortyapi.com/api/character/${id}`).then(
+      axios(`http://localhost:3001/rickandmorty/character/${id}`).then(
            ({ data }) => {
             // console.log(data);
               if (data.name) {
