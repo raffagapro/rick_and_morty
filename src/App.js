@@ -8,14 +8,10 @@ import About from './components/About/About.jsx';
 import Detail from './components/Detail/Detail.jsx';
 import Form from './components/Form/Form.jsx';
 import Favorites from './components/Favorites/Favorites.jsx';
-import { useDispatch, useSelector } from 'react-redux';
-import { addChar, removedChar } from './redux/accions/accions.js';
+import { useDispatch } from 'react-redux';
+import { addChar } from './redux/accions/accions.js';
 
 function App() {
-
-   // const [ characters, setCharacters] = useState([]);
-   const allCharacters =  useSelector((state)=>state.filteredCharacters);
-
    const dispatch = useDispatch();
 
    const [ access, setAccess ] = useState(true);
@@ -37,13 +33,6 @@ function App() {
          navigate('/home');
       }
    }
-
-   const onClose = (id) => {
-      //crea un nuevo arreglo sin el personaje
-      dispatch(removedChar(id));
-      // const filteredSate = characters.filter((char)=> char.id !== id);
-      // setCharacters(filteredSate);
-   };
 
    const onSearch = (id) => {
       axios(`https://rickandmortyapi.com/api/character/${id}`).then(
@@ -82,7 +71,7 @@ function App() {
 
             {/* HOME */}
             <Route path='/home' element={
-               <Cards characters={allCharacters} onClose={onClose} />
+               <Cards />
             } />
 
             {/* ABOUT */}
