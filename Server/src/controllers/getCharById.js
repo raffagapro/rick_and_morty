@@ -1,9 +1,8 @@
 const axios = require('axios');
+const URL = 'https://rickandmortyapi.com/api/character';
 
-const URL = 'https://rickandmortyapi.com/api/charaacter';
-
-
-function getCharById(res, id) {
+function getCharById(req, res) {
+    const { id } = req.params;
     axios.get(`${URL}/${id}`)
     .then(response =>{
         //deconstruction
@@ -16,31 +15,26 @@ function getCharById(res, id) {
             status
         } = response.data;
 
-        //building our character obj
-        let char={
-            id,
-            name,
-            gender,
-            species,
-            origin: origin.name,
-            image,
-            status
-        }
-        return res.end(JSON.stringify(char));
+        //revisando si se encontro un personaje
+        if (name) {
+            //building our character obj
+            let char={
+                id,
+                name,
+                gender,
+                species,
+                origin: origin.name,
+                image,
+                status
+            }
+            return res.send(char);
+        }else return res.status(404).send({message:'Not Found!'});
+
     })
     .catch(err=>{
-        // console.log(err.message);
-        // console.log('hay un error');
-        res.writeHead(500, { 'Content-Type': 'text/plain'});
-        res.end(err.message);
+        console.log(err.message);
+        res.status(500).send({message:err.message});
     });
 }
-
-// const fakeRes = {
-//     send:(char)=>console.log(char),
-//     status:(status)=>console.log(status)
-// }
-
-// getCharById(fakeRes, 34);
 
 module.exports = getCharById;

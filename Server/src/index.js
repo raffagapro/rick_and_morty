@@ -1,39 +1,52 @@
-const http = require('http');
-const getCharById = require('./controllers/getCharById');
+const express = require('express');
+const myRouter = require('./routes');
+const server = express();
 
-const port = 3001;
-const mockDB = require('./utils/data');
+server.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    res.header(
+       'Access-Control-Allow-Headers',
+       'Origin, X-Requested-With, Content-Type, Accept'
+    );
+    res.header(
+       'Access-Control-Allow-Methods',
+       'GET, POST, OPTIONS, PUT, DELETE'
+    );
+    next();
+ });
+
+ 
+const PORT = 3001;
+
+server.listen(PORT, () => {
+    console.log('Server raised in port: ' + PORT);
+ });
 
 
-const server = http.createServer((req, res)=>{
-    res.setHeader('Access-Control-Allow-Origin', '*');
 
-    // LA RESPONSABILIDAD DE ESTE CODIGO ES CREAR RUTAS!!!
 
-    if (req.url.includes('/rickandmorty/character')) {
-        const id = parseInt(req.url.split('/').pop())
-        return getCharById(res, id); //show them how to optimized it
+// const http = require('http');
+// const getCharById = require('./controllers/getCharById');
 
-        // LOGICA VIEJA -- esto deberia estar modulado
-        // // console.log(foundChar);
-        // let urlArr = req.url.split('/');
-        // let id = +urlArr[urlArr.length - 1];
-        // let foundChar = mockDB.find((char)=>char.id === id);
+// const port = 3001;
+// const mockDB = require('./utils/data');
 
-        // //Si se encontro el personaje mandar como JSON
-        // if (foundChar) {
-        //     res.writeHead(200, { 'Content-Type': 'text/plain'});
-        //     return res.end(JSON.stringify(foundChar));
-        // }
-        // //SI no mandar mensaje
-        // res.writeHead(200, { 'Content-Type': 'application/json'});
-        // return res.end(`No se encontro personaje con id:${id}`)
-    }
 
-    res.writeHead(200, { 'Content-Type': 'text/plain'});
-    return res.end('Hello, Henrry!')
-});
+// const server = http.createServer((req, res)=>{
+//     res.setHeader('Access-Control-Allow-Origin', '*');
 
-server.listen(port, ()=>{
-    console.log(`Server is running on http://localhost:${port}/`);
-});
+//     // LA RESPONSABILIDAD DE ESTE CODIGO ES CREAR RUTAS!!!
+
+//     if (req.url.includes('/rickandmorty/character')) {
+//         const id = parseInt(req.url.split('/').pop())
+//         return getCharById(res, id); //show them how to optimized it
+//     }
+
+//     res.writeHead(200, { 'Content-Type': 'text/plain'});
+//     return res.end('Hello, Henrry!')
+// });
+
+// server.listen(port, ()=>{
+//     console.log(`Server is running on http://localhost:${port}/`);
+// });
