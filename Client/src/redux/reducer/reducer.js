@@ -20,7 +20,7 @@ const rootReducer= (state = initialState, action)=>{
         case ADD_FAVORITE:
             return{
                 ...state,
-                myFavorites: [...state.myFavorites, payload],
+                myFavorites: payload,
             }
 
         case ADD_CHARACTER:
@@ -39,7 +39,7 @@ const rootReducer= (state = initialState, action)=>{
         case REMOVED_FAVORITE:
             return{
                 ...state,
-                myFavorites: state.myFavorites.filter((char)=>char.id !== payload)
+                myFavorites: payload
             }
 
         case FILTER:
