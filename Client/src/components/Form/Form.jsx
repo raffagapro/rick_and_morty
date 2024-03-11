@@ -45,7 +45,7 @@ export default function Form({ login }) {
 
     return (
         <div className={container}>
-            <form className={form} onSubmit={()=>{login(userData)}}>
+            <form className={form} onSubmit={(e)=>{ e.preventDefault(); return login(userData)}}>
                 <label>Username:</label>
                 <input
                     type='text'

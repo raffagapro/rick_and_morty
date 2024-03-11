@@ -14,24 +14,23 @@ import { addChar } from './redux/accions/accions.js';
 function App() {
    const dispatch = useDispatch();
 
-   const [ access, setAccess ] = useState(true);
+   const [ access, setAccess ] = useState(false);
 
    const location = useLocation();
    const navigate = useNavigate();
 
-   //DB FALSA
-   const EMAIL = 'batman@gmail.com';
-   const PASSWORD = 'robin1234';
-
    useEffect(() => {
       !access && navigate('/');
+      access && navigate('/home');
    }, [access])
 
    function login(userData) {
-      if (userData.password === PASSWORD && userData.username === EMAIL) {
-         setAccess(true);
-         navigate('/home');
-      }
+      const { username:email, password } = userData;
+      // console.log('user info', email, password);
+      const URL = 'http://localhost:3001/rickandmorty/login/';
+      axios(URL + `?email=${email}&password=${password}`).then(({ data }) => {
+         setAccess(data.access);
+      });
    }
 
    const onSearch = (id) => {
