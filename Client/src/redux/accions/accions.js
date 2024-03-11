@@ -24,25 +24,31 @@ export function removedChar(id){
 export function addFav(char){
     //OJO ASI SE MANDAN ACCIONES ASYNC
     const endpoint = 'http://localhost:3001/rickandmorty/fav';
-    return (dispatch) => {
-        axios.post(endpoint, char).then(({ data }) => {
+    return async (dispatch) => {
+        try {
+            let response  = await axios.post(endpoint, char);
             return dispatch({
                 type: ADD_FAVORITE,
-                payload: data,
+                payload: response.data,
             });
-        });
+        } catch (error) {
+            console.log(error);
+        }
     };
 }
 
 export function removeFav(id){
     const endpoint = 'http://localhost:3001/rickandmorty/fav/' + id;
-    return (dispatch) => {
-        axios.delete(endpoint).then(({ data }) => {
+    return async (dispatch) => {
+        try {
+            let response = await axios.delete(endpoint);
             return dispatch({
                 type: REMOVED_FAVORITE,
-                payload: data,
-        });
-        });
+                payload: response.data,
+            });
+        } catch (error) {
+            console.log(error);
+        }
     };
 }
 
